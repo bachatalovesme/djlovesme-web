@@ -71,12 +71,18 @@ public/             ← static assets
 
 ## Brand tokens
 
-Pulled from `app/globals.css`:
+Pulled from `app/globals.css` (logo-driven, nocturnal):
 
-- `--color-paper` warm off-white
-- `--color-teal-900 / 800 / 700 / 500` dominant deep teal
-- `--color-red` signature accent
-- Display font: **Fraunces** · Body: **Inter**
+- `--color-ink` pure black — the ground
+- `--color-paper` / `--color-paper-mute` — type on black
+- `--grad-pink → --grad-purple → --grad-blue` — signature gradient (matches logo pill border)
+- `--color-gold` — warm highlight from the logo's audio-wave
+- Display font: **Bebas Neue** (bold condensed caps, mirrors logo wordmark)
+- Body font: **Inter**
+
+### Logo
+
+`public/logo.svg` is the current placeholder — pill + gradient border + audio wave + wordmark. Swap it for your actual logo file any time (keep the filename `logo.svg` or change the `<img src>` in `app/layout.js`).
 
 ## Deploy
 

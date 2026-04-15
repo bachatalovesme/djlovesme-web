@@ -27,9 +27,24 @@ export default function GigCard({ gig }) {
   const location = [gig.city, gig.country].filter(Boolean).join(", ");
 
   return (
-    <article className="group flex flex-col h-full border border-foreground/10 hover:border-red transition-colors overflow-hidden bg-paper-soft/40">
-      {/* Flyer slot — aspect-[3/4] keeps the editorial poster feel */}
-      <div className="relative aspect-[3/4] bg-teal-900/90 overflow-hidden">
+    <article className="group relative flex flex-col h-full rounded-2xl bg-ink-card border border-white/10 hover:border-transparent overflow-hidden transition-all duration-300">
+      {/* gradient border on hover */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          padding: "1px",
+          background:
+            "linear-gradient(90deg, #ec4899, #a855f7, #3b82f6)",
+          WebkitMask:
+            "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+        }}
+      />
+
+      {/* Flyer slot — aspect-[3/4] keeps the poster feel */}
+      <div className="relative aspect-[3/4] bg-black overflow-hidden">
         {gig.flyer ? (
           <Image
             src={gig.flyer}
@@ -39,29 +54,34 @@ export default function GigCard({ gig }) {
             sizes="(min-width: 768px) 33vw, 100vw"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-paper/80 font-display text-4xl italic">
-            DLM<span className="text-red">.</span>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 flex items-center justify-center glow-gold"
+          >
+            <span className="font-display text-5xl text-grad">DLM</span>
           </div>
         )}
       </div>
 
       <div className="flex-1 flex flex-col p-5">
-        <p className="eyebrow text-red">
+        <p className="eyebrow">
           {formatDate(gig.date)}
-          {time && <span className="opacity-60"> · {time}</span>}
+          {time && <span className="text-paper-mute"> · {time}</span>}
         </p>
-        <h3 className="mt-2 font-display text-2xl font-semibold leading-tight">
+        <h3 className="mt-2 font-display text-2xl md:text-3xl leading-tight">
           {gig.title}
         </h3>
         {(gig.venue || location) && (
-          <p className="mt-2 text-sm opacity-80">
+          <p className="mt-2 text-sm text-paper-mute">
             {gig.venue}
-            {gig.venue && location && <span className="opacity-50"> — </span>}
+            {gig.venue && location && <span> — </span>}
             {location}
           </p>
         )}
         {gig.notes && (
-          <p className="mt-3 text-sm opacity-75 line-clamp-3">{gig.notes}</p>
+          <p className="mt-3 text-sm text-paper-mute line-clamp-3">
+            {gig.notes}
+          </p>
         )}
 
         {gig.ticketUrl && (
@@ -69,7 +89,7 @@ export default function GigCard({ gig }) {
             href={gig.ticketUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 link-red text-sm font-medium self-start"
+            className="mt-4 link-gold text-sm font-semibold uppercase tracking-widest self-start"
           >
             Tickets →
           </a>

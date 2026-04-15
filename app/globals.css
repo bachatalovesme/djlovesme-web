@@ -1,99 +1,173 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   DJ Loves Me — brand tokens
-   Editorial, warm, grown-up-playful.
-   Deep teal dominant · red accent (glasses) · warm paper
+   DJ Loves Me — brand tokens (v2, logo-driven)
+   Nocturnal · music-forward · gradient signature
+   Pure black ground · magenta→purple→blue gradient · gold accent
    ───────────────────────────────────────────── */
 
 :root {
-  /* Warm paper + deep ink */
-  --color-paper: #f4ece0;        /* warm off-white */
-  --color-paper-soft: #ebe2d3;
-  --color-ink: #111111;
+  /* Ground */
+  --color-ink: #000000;            /* matches logo canvas */
+  --color-ink-soft: #0a0a0a;
+  --color-ink-card: #111111;
+  --color-ink-line: rgba(255, 255, 255, 0.10);
 
-  /* Dominant teal — deep, editorial, not neon */
-  --color-teal-900: #0a2e2e;
-  --color-teal-800: #0f3a3a;
-  --color-teal-700: #154545;
-  --color-teal-500: #2f6d6d;
+  /* Type on dark */
+  --color-paper: #f5f5f5;
+  --color-paper-mute: #a3a3a3;
 
-  /* Signature red — Daniel's glasses */
-  --color-red: #d9392a;
-  --color-red-soft: #e76659;
+  /* Signature gradient stops (from logo pill border) */
+  --grad-pink: #ec4899;
+  --grad-purple: #a855f7;
+  --grad-blue: #3b82f6;
+
+  /* Warm highlight (from logo audio waveform) */
+  --color-gold: #fbbf24;
+  --color-gold-deep: #d97706;
 
   /* Semantic */
-  --background: var(--color-paper);
-  --foreground: var(--color-teal-900);
+  --background: var(--color-ink);
+  --foreground: var(--color-paper);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-paper: var(--color-paper);
-  --color-paper-soft: var(--color-paper-soft);
   --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-card: var(--color-ink-card);
 
-  --color-teal-900: var(--color-teal-900);
-  --color-teal-800: var(--color-teal-800);
-  --color-teal-700: var(--color-teal-700);
-  --color-teal-500: var(--color-teal-500);
+  --color-paper: var(--color-paper);
+  --color-paper-mute: var(--color-paper-mute);
 
-  --color-red: var(--color-red);
-  --color-red-soft: var(--color-red-soft);
+  --color-grad-pink: var(--grad-pink);
+  --color-grad-purple: var(--grad-purple);
+  --color-grad-blue: var(--grad-blue);
+
+  --color-gold: var(--color-gold);
+  --color-gold-deep: var(--color-gold-deep);
 
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-fraunces);
-}
-
-/* Dark mode: invert to deep teal ground with warm paper type */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--color-teal-900);
-    --foreground: var(--color-paper);
-  }
+  --font-display: var(--font-bebas);
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--color-ink);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "ss02";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Editorial display type */
+/* Display type — bold condensed caps, mirrors logo wordmark */
 .font-display {
-  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
-  font-optical-sizing: auto;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display), "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 400; /* Bebas is single-weight; "bold" look is built-in */
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
 }
 
-/* Small caps / eyebrow label */
+/* Small label — gold caps */
 .eyebrow {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: 0.75rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--color-gold);
 }
 
-/* Red underline-on-hover link */
-.link-red {
+/* Signature gradient text (use on accent words like "LOVES ME") */
+.text-grad {
+  background-image: linear-gradient(
+    90deg,
+    var(--grad-pink) 0%,
+    var(--grad-purple) 50%,
+    var(--grad-blue) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gradient bar — hairline separator / top-of-page stripe */
+.bar-grad {
+  background: linear-gradient(
+    90deg,
+    var(--grad-pink) 0%,
+    var(--grad-purple) 50%,
+    var(--grad-blue) 100%
+  );
+}
+
+/* Gradient border on elements (buttons, cards) via mask trick */
+.border-grad {
+  position: relative;
+  background-color: var(--color-ink);
+  isolation: isolate;
+}
+.border-grad::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--grad-pink),
+    var(--grad-purple),
+    var(--grad-blue)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Primary CTA — gradient fill */
+.btn-grad {
+  background: linear-gradient(
+    90deg,
+    var(--grad-pink) 0%,
+    var(--grad-purple) 50%,
+    var(--grad-blue) 100%
+  );
+  color: #fff;
+  transition: filter 200ms ease, transform 200ms ease;
+}
+.btn-grad:hover {
+  filter: brightness(1.1) saturate(1.1);
+  transform: translateY(-1px);
+}
+
+/* Secondary link — gold underline-on-hover */
+.link-gold {
   position: relative;
   display: inline;
-  background-image: linear-gradient(var(--color-red), var(--color-red));
+  background-image: linear-gradient(var(--color-gold), var(--color-gold));
   background-size: 0% 2px;
   background-repeat: no-repeat;
   background-position: 0 100%;
   transition: background-size 200ms ease;
 }
-.link-red:hover {
+.link-gold:hover {
   background-size: 100% 2px;
+}
+
+/* Ambient radial glow — used behind hero to suggest the logo's warm core */
+.glow-gold {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(251, 191, 36, 0.12) 0%,
+    rgba(251, 191, 36, 0) 60%
+  );
 }
