@@ -63,7 +63,7 @@ app/
   about/page.js     ← about page
   globals.css       ← Tailwind + brand tokens
 components/
-  GigCard.jsx       ← reusable flyer-forward gig card
+  GigRow.jsx        ← horizontal gig row: index + date + title + rotated flyer
 lib/
   notion.js         ← Notion client (with sample fallback)
 public/             ← static assets

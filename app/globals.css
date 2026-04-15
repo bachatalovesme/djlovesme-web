@@ -1,32 +1,25 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   DJ Loves Me — brand tokens (v2, logo-driven)
-   Nocturnal · music-forward · gradient signature
-   Pure black ground · magenta→purple→blue gradient · gold accent
+   DJ Loves Me — brand v3 · NOCTURNAL ROMANCE
+   Roadhouse glow · neon signage · late-night confessional
    ───────────────────────────────────────────── */
 
 :root {
-  /* Ground */
-  --color-ink: #000000;            /* matches logo canvas */
-  --color-ink-soft: #0a0a0a;
-  --color-ink-card: #111111;
-  --color-ink-line: rgba(255, 255, 255, 0.10);
+  --color-ink: #050505;
+  --color-ink-card: #0d0b0f;
+  --color-ink-line: rgba(255, 255, 255, 0.08);
 
-  /* Type on dark */
-  --color-paper: #f5f5f5;
-  --color-paper-mute: #a3a3a3;
+  --color-paper: #f2ecdd;          /* warm cream, like old club lighting */
+  --color-paper-mute: #8a867b;
 
-  /* Signature gradient stops (from logo pill border) */
   --grad-pink: #ec4899;
   --grad-purple: #a855f7;
   --grad-blue: #3b82f6;
 
-  /* Warm highlight (from logo audio waveform) */
   --color-gold: #fbbf24;
-  --color-gold-deep: #d97706;
+  --color-gold-deep: #b45309;
 
-  /* Semantic */
   --background: var(--color-ink);
   --foreground: var(--color-paper);
 }
@@ -34,23 +27,18 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
   --color-ink: var(--color-ink);
-  --color-ink-soft: var(--color-ink-soft);
   --color-ink-card: var(--color-ink-card);
-
   --color-paper: var(--color-paper);
   --color-paper-mute: var(--color-paper-mute);
-
   --color-grad-pink: var(--grad-pink);
   --color-grad-purple: var(--grad-purple);
   --color-grad-blue: var(--grad-blue);
-
   --color-gold: var(--color-gold);
-  --color-gold-deep: var(--color-gold-deep);
 
-  --font-sans: var(--font-inter);
   --font-display: var(--font-bebas);
+  --font-serif: var(--font-instrument);
+  --font-mono: var(--font-jetbrains);
 }
 
 html {
@@ -61,33 +49,68 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-serif), Georgia, serif;
+  font-feature-settings: "ss01";
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-/* Display type — bold condensed caps, mirrors logo wordmark */
+/* Grain overlay — film texture across entire page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Mesh blobs — pink/purple/blue ambient light bleeding in from corners */
+.mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+}
+.mesh-blob-pink   { background: var(--grad-pink);   }
+.mesh-blob-purple { background: var(--grad-purple); }
+.mesh-blob-blue   { background: var(--grad-blue);   }
+.mesh-blob-gold   { background: var(--color-gold); opacity: 0.25; }
+
+/* Display / Serif / Mono helpers */
 .font-display {
-  font-family: var(--font-display), "Oswald", "Arial Narrow", sans-serif;
-  font-weight: 400; /* Bebas is single-weight; "bold" look is built-in */
+  font-family: var(--font-display), "Oswald", sans-serif;
+  text-transform: uppercase;
   letter-spacing: 0.005em;
-  text-transform: uppercase;
+  font-weight: 400;
+}
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+.font-mono {
+  font-family: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: -0.02em;
 }
 
-/* Small label — gold caps */
+/* Monospace eyebrow — timecode feel */
 .eyebrow {
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.70rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 600;
   color: var(--color-gold);
+  font-weight: 500;
 }
 
-/* Signature gradient text (use on accent words like "LOVES ME") */
+/* Signature gradient text */
 .text-grad {
   background-image: linear-gradient(
-    90deg,
+    95deg,
     var(--grad-pink) 0%,
     var(--grad-purple) 50%,
     var(--grad-blue) 100%
@@ -97,7 +120,15 @@ body {
   color: transparent;
 }
 
-/* Gradient bar — hairline separator / top-of-page stripe */
+/* Neon glow — applies to elements, simulates a backlit sign */
+.neon {
+  text-shadow:
+    0 0 8px rgba(236, 72, 153, 0.35),
+    0 0 24px rgba(168, 85, 247, 0.25),
+    0 0 48px rgba(59, 130, 246, 0.18);
+}
+
+/* Hairline gradient bar */
 .bar-grad {
   background: linear-gradient(
     90deg,
@@ -107,67 +138,75 @@ body {
   );
 }
 
-/* Gradient border on elements (buttons, cards) via mask trick */
-.border-grad {
-  position: relative;
-  background-color: var(--color-ink);
-  isolation: isolate;
-}
-.border-grad::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 2px;
-  border-radius: inherit;
-  background: linear-gradient(
-    90deg,
-    var(--grad-pink),
-    var(--grad-purple),
-    var(--grad-blue)
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  pointer-events: none;
-}
-
 /* Primary CTA — gradient fill */
 .btn-grad {
   background: linear-gradient(
-    90deg,
+    95deg,
     var(--grad-pink) 0%,
     var(--grad-purple) 50%,
     var(--grad-blue) 100%
   );
-  color: #fff;
-  transition: filter 200ms ease, transform 200ms ease;
+  color: #0a0a0a;
+  transition: filter 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+  box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
 }
 .btn-grad:hover {
-  filter: brightness(1.1) saturate(1.1);
-  transform: translateY(-1px);
+  filter: brightness(1.12) saturate(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.55);
 }
 
-/* Secondary link — gold underline-on-hover */
+/* Gold underline link */
 .link-gold {
   position: relative;
-  display: inline;
   background-image: linear-gradient(var(--color-gold), var(--color-gold));
-  background-size: 0% 2px;
+  background-size: 0% 1px;
   background-repeat: no-repeat;
   background-position: 0 100%;
-  transition: background-size 200ms ease;
+  transition: background-size 220ms ease, color 220ms ease;
+  color: var(--color-paper);
 }
 .link-gold:hover {
-  background-size: 100% 2px;
+  background-size: 100% 1px;
+  color: var(--color-gold);
 }
 
-/* Ambient radial glow — used behind hero to suggest the logo's warm core */
-.glow-gold {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(251, 191, 36, 0.12) 0%,
-    rgba(251, 191, 36, 0) 60%
-  );
+/* Marquee — infinite scroll */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover { animation-play-state: paused; }
+
+/* Staggered entry animation */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+}
+.rise {
+  opacity: 0;
+  animation: riseIn 900ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.rise-1 { animation-delay: 50ms; }
+.rise-2 { animation-delay: 200ms; }
+.rise-3 { animation-delay: 380ms; }
+.rise-4 { animation-delay: 580ms; }
+.rise-5 { animation-delay: 820ms; }
+
+/* Slow pulse for ambient elements */
+@keyframes pulseSlow {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.65; transform: scale(1.05); }
+}
+.pulse-slow { animation: pulseSlow 6s ease-in-out infinite; }
+
+/* Text selection */
+::selection {
+  background: var(--grad-purple);
+  color: var(--color-paper);
 }
